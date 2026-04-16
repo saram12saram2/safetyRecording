@@ -27,6 +27,7 @@ const splashEl     = document.getElementById('splash-screen');     // intro over
 const modalEl      = document.getElementById('result-modal');      // end-of-round modal
 const finalScoreEl = document.getElementById('final-score');       // score shown in modal
 const btnClose     = document.getElementById('close-button');      // close modal button
+const btnReset     = document.getElementById('reset-button');      // reset current round
 const btnTheme     = document.getElementById('theme-button');      // light/dark toggle
 
 // ─── Drag State ───────────────────────────────────────────────────────────────
@@ -107,6 +108,7 @@ function finishRound() {
   isPlaying           = false;
   btnStart.disabled   = false;
   btnStart.textContent = "Restart";
+  btnReset.disabled   = true;
 
   finalScoreEl.textContent = playerScore;
   modalEl.classList.remove('hidden'); // make the modal visible
@@ -293,7 +295,20 @@ function launchRound() {
   isPlaying            = true;
   btnStart.disabled    = true;
   btnStart.textContent = "In Progress";
+  btnReset.disabled    = false;
+}
 
+// ─────────────────────────────────────────────────────────────────────────────
+// resetRound()
+// Keeps the game running but rebuilds the board and restarts the timer.
+// Score is zeroed so the player gets a clean slate without leaving the game.
+// ─────────────────────────────────────────────────────────────────────────────
+function resetRound() {
+  clearInterval(countdown); // stop the current timer before restarting
+  playerScore             = 0;
+  scoreEl.textContent     = playerScore;
+  buildBoard();
+  beginCountdown();
 }
 
 // ─── Event Listeners ──────────────────────────────────────────────────────────
@@ -302,6 +317,11 @@ function launchRound() {
 // (The button is disabled during a round, so this guard is a safety net.)
 btnStart.addEventListener('click', () => {
   if (!isPlaying) launchRound();
+});
+
+// Reset button: rebuilds the board and restarts the timer mid-round.
+btnReset.addEventListener('click', () => {
+  if (isPlaying) resetRound();
 });
 
 // Close button: dismisses the end-of-round result modal.
