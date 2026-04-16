@@ -1,38 +1,6 @@
 /* ─── Google Font: Nunito (rounded, Nintendo-like) ───────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
 
-
-/* body {
-  font-family: sans-serif;
-  text-align: center;
-  background: #222;
-  color: white;
-}
-
-#grid {
-  display: grid;
-  grid-template-columns: repeat(10, 50px);
-  gap: 6px;
-  justify-content: center;
-  margin: 20px;
-}
-
-.apple {
-  width: 50px;
-  height: 50px;
-  background: red;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-}
-
-.selected {
-  outline: 3px solid yellow;
-} */
-
-
 /* ─── Reset ──────────────────────────────────────────────────────────────── */
 * {
   box-sizing: border-box;
@@ -40,17 +8,94 @@
   padding: 0;
 }
 
-/* ─── Page — Nintendo Switch home screen dark ────────────────────────────── */
+/* ─── Theme variables — dark (default) ──────────────────────────────────── */
+:root {
+  --bg-page:          #1a1a1a;
+  --bg-page-glow-r:   rgba(228,0,15,0.06);
+  --bg-page-glow-b:   rgba(10,185,230,0.06);
+  --bg-board:         #2a2a2a;
+  --border-board:     #444;
+  --shadow-board:     #111;
+  --bg-panel:         #2a2a2a;
+  --border-panel:     #444;
+  --shadow-panel:     #111;
+  --text-label:       rgba(255,255,255,0.45);
+  --text-body:        rgba(255,255,255,0.8);
+  --splash-bg:        #2a2a2a;
+  --splash-title:     #ffffff;
+  --splash-p:         rgba(255,255,255,0.6);
+  --modal-overlay:    rgba(0,0,0,0.75);
+  --modal-bg:         #2a2a2a;
+  --modal-border:     #444;
+  --modal-shadow:     #111;
+  --modal-title:      #ffffff;
+  --modal-p:          rgba(255,255,255,0.8);
+  --timer-track-bg:   #111;
+  --timer-track-bdr:  #333;
+  --timer-text:       #ffffff;
+  --empty-bg:         rgba(255,255,255,0.04);
+  --empty-border:     rgba(255,255,255,0.06);
+  --score-color:      #ffdd00;
+  --score-shadow:     #a07a00;
+  --score-shadow2:    #5a4400;
+  --btn-border:       #1a1a1a;
+  --btn-disabled-op:  0.4;
+  --theme-btn-bg:     #3a3a3a;
+  --theme-btn-color:  #ffffff;
+  --theme-btn-border: #555;
+  --theme-btn-shadow: #222;
+}
+
+/* ─── Theme variables — light ────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-page:          #e8e8e8;
+  --bg-page-glow-r:   rgba(228,0,15,0.08);
+  --bg-page-glow-b:   rgba(10,185,230,0.08);
+  --bg-board:         #ffffff;
+  --border-board:     #ccc;
+  --shadow-board:     #bbb;
+  --bg-panel:         #ffffff;
+  --border-panel:     #ddd;
+  --shadow-panel:     #ccc;
+  --text-label:       rgba(0,0,0,0.4);
+  --text-body:        rgba(0,0,0,0.75);
+  --splash-bg:        #ffffff;
+  --splash-title:     #1a1a1a;
+  --splash-p:         rgba(0,0,0,0.55);
+  --modal-overlay:    rgba(0,0,0,0.45);
+  --modal-bg:         #ffffff;
+  --modal-border:     #ddd;
+  --modal-shadow:     #bbb;
+  --modal-title:      #1a1a1a;
+  --modal-p:          rgba(0,0,0,0.7);
+  --timer-track-bg:   #ddd;
+  --timer-track-bdr:  #ccc;
+  --timer-text:       #1a1a1a;
+  --empty-bg:         rgba(0,0,0,0.04);
+  --empty-border:     rgba(0,0,0,0.08);
+  --score-color:      #c47f00;
+  --score-shadow:     #7a5000;
+  --score-shadow2:    #3a2500;
+  --btn-border:       #bbb;
+  --btn-disabled-op:  0.35;
+  --theme-btn-bg:     #ffffff;
+  --theme-btn-color:  #1a1a1a;
+  --theme-btn-border: #ccc;
+  --theme-btn-shadow: #bbb;
+}
+
+/* ─── Page ───────────────────────────────────────────────────────────────── */
 body {
   font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
-  background-color: #1a1a1a;
+  background-color: var(--bg-page);
   background-image:
-    radial-gradient(circle at 20% 50%, rgba(228,0,15,0.06) 0%, transparent 50%),
-    radial-gradient(circle at 80% 50%, rgba(10,185,230,0.06) 0%, transparent 50%);
+    radial-gradient(circle at 20% 50%, var(--bg-page-glow-r) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, var(--bg-page-glow-b) 0%, transparent 50%);
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: background-color 0.3s ease;
 }
 
 /* ─── Outer layout ───────────────────────────────────────────────────────── */
@@ -62,18 +107,19 @@ body {
   padding: 24px;
 }
 
-/* ─── Grid container — dark panel with thick rounded border ─────────────── */
+/* ─── Grid container ─────────────────────────────────────────────────────── */
 #grid-container {
   position: relative;
   width: 950px;
   height: 555px;
-  background-color: #2a2a2a;
-  border: 4px solid #444;
+  background-color: var(--bg-board);
+  border: 4px solid var(--border-board);
   border-radius: 20px;
   box-shadow:
-    0 0 0 2px #111,
-    0 12px 40px rgba(0,0,0,0.8);
+    0 0 0 2px var(--shadow-board),
+    0 12px 40px rgba(0,0,0,0.3);
   overflow: hidden;
+  transition: background-color 0.3s, border-color 0.3s;
 }
 
 /* ─── Grid ───────────────────────────────────────────────────────────────── */
@@ -85,38 +131,32 @@ body {
   padding: 5px;
 }
 
-/* ─── Apple — cartoon style with thick dark outline ─────────────────────── */
+/* ─── Apple ──────────────────────────────────────────────────────────────── */
 .apple {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  /* Dark red, not too bright */
   background: radial-gradient(circle at 38% 32%, #e84040, #9b1515 72%);
   border: 1px solid #1a1a1ac6;
   border-radius: 50%;
-
-  /* Numbers: bold, uniform, white with dark outline */
   font-family: 'Nunito', Arial, sans-serif;
   font-weight: 900;
   font-size: 18px;
   font-variant-numeric: tabular-nums;
   line-height: 1;
   color: #ffffff;
-  /* 4-direction shadow = perfectly even outline around every digit */
   text-shadow:
     -1px -1px 0 #3a0000,
      1px -1px 0 #3a0000,
     -1px  1px 0 #3a0000,
      1px  1px 0 #3a0000;
-
   user-select: none;
   position: relative;
   cursor: default;
   box-shadow:
     inset 0 -4px 6px rgba(0,0,0,0.4),
     inset 0 3px 5px rgba(255,255,255,0.18),
-    0 4px 0 #5a0000,       /* hard bottom shadow = cartoon depth */
+    0 4px 0 #5a0000,
     0 6px 10px rgba(0,0,0,0.5);
   transition: transform 0.08s ease, box-shadow 0.08s ease;
 }
@@ -135,7 +175,7 @@ body {
   transform: rotate(-45deg);
 }
 
-/* Selected — Nintendo yellow ring (like a coin / star) */
+/* Selected */
 .selected-apple {
   transform: scale(1.14);
   box-shadow:
@@ -149,8 +189,8 @@ body {
 
 /* Empty slot */
 .empty {
-  background: rgba(255,255,255,0.04);
-  border: 2px solid rgba(255,255,255,0.06);
+  background: var(--empty-bg);
+  border: 2px solid var(--empty-border);
   border-radius: 50%;
   box-shadow: none;
 }
@@ -168,7 +208,7 @@ body {
 /* ─── Drag selection box ─────────────────────────────────────────────────── */
 #selection-box {
   position: absolute;
-  border: 3px solid #0ab9e6;           /* Joy-Con blue */
+  border: 3px solid #0ab9e6;
   background-color: rgba(10,185,230,0.1);
   border-radius: 6px;
   pointer-events: none;
@@ -184,7 +224,7 @@ body {
 #splash-screen {
   position: absolute;
   inset: 0;
-  background: #2a2a2a;
+  background: var(--splash-bg);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -193,13 +233,13 @@ body {
   z-index: 10;
   padding: 28px;
   gap: 16px;
+  transition: background 0.3s;
 }
 #splash-screen h1 {
   font-size: 54px;
   font-weight: 900;
   letter-spacing: 1px;
-  color: #ffffff;
-  /* Double-layer text: white on top of red shadow = Nintendo logo feel */
+  color: var(--splash-title);
   text-shadow:
     4px 4px 0 #e4000f,
     6px 6px 0 #7a0008;
@@ -207,28 +247,28 @@ body {
 #splash-screen p {
   font-size: 17px;
   font-weight: 700;
-  color: rgba(255,255,255,0.6);
+  color: var(--splash-p);
 }
 
 /* ─── Result modal ───────────────────────────────────────────────────────── */
 #result-modal {
   position: absolute;
   inset: 0;
-  background-color: rgba(0,0,0,0.75);
+  background-color: var(--modal-overlay);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 20;
 }
 #result-modal .modal-content {
-  background: #2a2a2a;
-  border: 4px solid #444;
+  background: var(--modal-bg);
+  border: 4px solid var(--modal-border);
   border-radius: 20px;
   padding: 40px 52px;
   text-align: center;
   box-shadow:
-    0 0 0 2px #111,
-    0 20px 60px rgba(0,0,0,0.8);
+    0 0 0 2px var(--modal-shadow),
+    0 20px 60px rgba(0,0,0,0.3);
   animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
   display: flex;
   flex-direction: column;
@@ -237,17 +277,17 @@ body {
 #result-modal h1 {
   font-size: 38px;
   font-weight: 900;
-  color: #fff;
+  color: var(--modal-title);
   text-shadow: 3px 3px 0 #e4000f, 5px 5px 0 #7a0008;
   letter-spacing: 1px;
 }
 #result-modal p {
   font-size: 20px;
   font-weight: 700;
-  color: rgba(255,255,255,0.8);
+  color: var(--modal-p);
 }
 #result-modal p span {
-  color: #ffdd00;
+  color: var(--score-color);
   font-size: 28px;
 }
 #result-modal button {
@@ -258,20 +298,20 @@ body {
   font-weight: 900;
   letter-spacing: 0.5px;
   cursor: pointer;
-  border: 3px solid #1a1a1a;
-  border-radius: 999px;          /* pill shape — like Switch UI buttons */
+  border: 3px solid var(--btn-border);
+  border-radius: 999px;
   background: #e4000f;
   color: #fff;
-  box-shadow: 0 5px 0 #7a0008, 0 8px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 5px 0 #7a0008, 0 8px 16px rgba(0,0,0,0.3);
   transition: transform 0.1s, box-shadow 0.1s;
 }
 #result-modal button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 7px 0 #7a0008, 0 10px 20px rgba(0,0,0,0.5);
+  box-shadow: 0 7px 0 #7a0008, 0 10px 20px rgba(0,0,0,0.3);
 }
 #result-modal button:active {
   transform: translateY(3px);
-  box-shadow: 0 2px 0 #7a0008, 0 4px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 0 #7a0008, 0 4px 8px rgba(0,0,0,0.3);
 }
 
 @keyframes popIn {
@@ -279,7 +319,6 @@ body {
   to   { opacity: 1; transform: scale(1); }
 }
 
-/* Reused by auto-solve overlays */
 @keyframes fadeIn {
   from { opacity: 0; }
   to   { opacity: 1; }
@@ -294,71 +333,71 @@ body {
   gap: 12px;
 }
 
-/* ─── Buttons — pill-shaped, Nintendo controller style ──────────────────── */
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
 #start-button,
-#auto-solve-button {
+#theme-button {
   padding: 14px 18px;
   font-family: 'Nunito', Arial, sans-serif;
   font-size: 15px;
   font-weight: 900;
   letter-spacing: 0.4px;
   cursor: pointer;
-  border: 3px solid #1a1a1a;
   border-radius: 999px;
-  transition: transform 0.1s, box-shadow 0.1s;
+  transition: transform 0.1s, box-shadow 0.1s, background 0.3s, color 0.3s;
 }
 
 /* Start = Joy-Con red */
 #start-button {
   background: #e4000f;
   color: #fff;
-  box-shadow: 0 5px 0 #7a0008, 0 7px 14px rgba(0,0,0,0.45);
+  border: 3px solid var(--btn-border);
+  box-shadow: 0 5px 0 #7a0008, 0 7px 14px rgba(0,0,0,0.3);
 }
 #start-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 7px 0 #7a0008, 0 10px 18px rgba(0,0,0,0.45);
+  box-shadow: 0 7px 0 #7a0008, 0 10px 18px rgba(0,0,0,0.3);
 }
 #start-button:active:not(:disabled) {
   transform: translateY(3px);
-  box-shadow: 0 2px 0 #7a0008, 0 3px 8px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 0 #7a0008, 0 3px 8px rgba(0,0,0,0.3);
 }
-
-/* Auto-solve = Joy-Con blue */
-#auto-solve-button {
-  background: #0ab9e6;
-  color: #fff;
-  box-shadow: 0 5px 0 #056e8a, 0 7px 14px rgba(0,0,0,0.45);
-}
-#auto-solve-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 7px 0 #056e8a, 0 10px 18px rgba(0,0,0,0.45);
-}
-#auto-solve-button:active:not(:disabled) {
-  transform: translateY(3px);
-  box-shadow: 0 2px 0 #056e8a, 0 3px 8px rgba(0,0,0,0.4);
-}
-
-#start-button:disabled,
-#auto-solve-button:disabled {
-  opacity: 0.4;
+#start-button:disabled {
+  opacity: var(--btn-disabled-op);
   cursor: not-allowed;
   transform: none;
   box-shadow: none;
 }
 
+/* Theme toggle */
+#theme-button {
+  background: var(--theme-btn-bg);
+  color: var(--theme-btn-color);
+  border: 3px solid var(--theme-btn-border);
+  box-shadow: 0 4px 0 var(--theme-btn-shadow);
+}
+#theme-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--theme-btn-shadow);
+}
+#theme-button:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 var(--theme-btn-shadow);
+}
+
 /* ─── Score panel ────────────────────────────────────────────────────────── */
 #score-container {
-  background: #2a2a2a;
-  border: 3px solid #444;
+  background: var(--bg-panel);
+  border: 3px solid var(--border-panel);
   border-radius: 16px;
   padding: 14px 18px;
   text-align: center;
-  box-shadow: 0 4px 0 #111;
+  box-shadow: 0 4px 0 var(--shadow-panel);
+  transition: background 0.3s, border-color 0.3s;
 }
 #score-container h2 {
   font-size: 12px;
   font-weight: 900;
-  color: rgba(255,255,255,0.45);
+  color: var(--text-label);
   text-transform: uppercase;
   letter-spacing: 2px;
   margin-bottom: 6px;
@@ -367,25 +406,26 @@ body {
   display: block;
   font-size: 44px;
   font-weight: 900;
-  color: #ffdd00;
+  color: var(--score-color);
   line-height: 1;
-  text-shadow: 2px 2px 0 #a07a00, 3px 3px 0 #5a4400;
+  text-shadow: 2px 2px 0 var(--score-shadow), 3px 3px 0 var(--score-shadow2);
 }
 
 /* ─── Timer ──────────────────────────────────────────────────────────────── */
 #timer-container {
-  background: #2a2a2a;
-  border: 3px solid #444;
+  background: var(--bg-panel);
+  border: 3px solid var(--border-panel);
   border-radius: 16px;
   padding: 14px 18px;
-  box-shadow: 0 4px 0 #111;
+  box-shadow: 0 4px 0 var(--shadow-panel);
+  transition: background 0.3s, border-color 0.3s;
 }
 
 #timer-bar-container {
   width: 100%;
   height: 20px;
-  background-color: #111;
-  border: 2px solid #333;
+  background-color: var(--timer-track-bg);
+  border: 2px solid var(--timer-track-bdr);
   border-radius: 999px;
   position: relative;
   overflow: hidden;
@@ -394,7 +434,6 @@ body {
 #timer-bar {
   height: 100%;
   width: 100%;
-  /* Switches from green → yellow → red as time runs out (set via JS if desired) */
   background: linear-gradient(90deg, #00c853, #aeea00);
   border-radius: 999px;
   display: flex;
@@ -412,9 +451,8 @@ body {
   font-family: 'Nunito', Arial, sans-serif;
   font-size: 11px;
   font-weight: 900;
-  color: #fff;
-  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  color: var(--timer-text);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.4);
   letter-spacing: 0.5px;
   pointer-events: none;
 }
-

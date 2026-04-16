@@ -27,6 +27,7 @@ const splashEl     = document.getElementById('splash-screen');     // intro over
 const modalEl      = document.getElementById('result-modal');      // end-of-round modal
 const finalScoreEl = document.getElementById('final-score');       // score shown in modal
 const btnClose     = document.getElementById('close-button');      // close modal button
+const btnTheme     = document.getElementById('theme-button');      // light/dark toggle
 
 // ─── Drag State ───────────────────────────────────────────────────────────────
 // Track the mouse positions so we can draw the selection rectangle while dragging.
@@ -308,6 +309,13 @@ btnClose.addEventListener('click', () => {
   modalEl.classList.add('hidden');
 });
 
+// Theme toggle: switches between dark and light mode.
+btnTheme.addEventListener('click', () => {
+  const isLight = document.documentElement.dataset.theme === 'light';
+  document.documentElement.dataset.theme = isLight ? 'dark' : 'light';
+  btnTheme.textContent = isLight ? 'Light Mode' : 'Dark Mode';
+});
+
 
 
 // const COLUMNS = 10;
@@ -383,7 +391,7 @@ btnClose.addEventListener('click', () => {
 
 //     if (timeLeft <= 0) {
 //       clearInterval(timer);
-//       alert(`Game Over! Score: ${score}`);
+//       alert(`! Score: ${score}`);
 //     }
 //   }, 1000);
 // }
