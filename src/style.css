@@ -44,6 +44,9 @@
   --theme-btn-color:  #ffffff;
   --theme-btn-border: #555;
   --theme-btn-shadow: #222;
+  --title-color:      #ffffff;
+  --title-shadow-1:   #e4000f;
+  --title-shadow-2:   #7a0008;
 }
 
 /* ─── Theme variables — light ────────────────────────────────────────────── */
@@ -82,6 +85,9 @@
   --theme-btn-color:  #1a1a1a;
   --theme-btn-border: #ccc;
   --theme-btn-shadow: #bbb;
+  --title-color:      #e4000f;
+  --title-shadow-1:   #1a1a1a;
+  --title-shadow-2:   #000000;
 }
 
 /* ─── Page ───────────────────────────────────────────────────────────────── */
@@ -239,15 +245,39 @@ body {
   font-size: 54px;
   font-weight: 900;
   letter-spacing: 1px;
-  color: var(--splash-title);
+  color: var(--title-color);
   text-shadow:
-    4px 4px 0 #e4000f,
-    6px 6px 0 #7a0008;
+    4px 4px 0 var(--title-shadow-1),
+    6px 6px 0 var(--title-shadow-2);
 }
 #splash-screen p {
   font-size: 17px;
   font-weight: 700;
   color: var(--splash-p);
+}
+
+/* Hidden link — same color as surrounding text, no underline */
+.hidden-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* "Did you know?" fact block — Nintendo style */
+#splash-screen p em {
+  font-style: italic;
+}
+#splash-screen p:nth-child(3) {
+  max-width: 560px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: #fff;
+  background: #2a2a2a;
+  border: 3px solid #ffdd00;
+  border-radius: 14px;
+  padding: 14px 20px;
+  box-shadow: 0 5px 0 #a07a00, 0 8px 18px rgba(0,0,0,0.5);
+  text-shadow: none;
 }
 
 /* ─── Result modal ───────────────────────────────────────────────────────── */
