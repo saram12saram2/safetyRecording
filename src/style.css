@@ -1,0 +1,420 @@
+/* ─── Google Font: Nunito (rounded, Nintendo-like) ───────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap');
+
+
+/* body {
+  font-family: sans-serif;
+  text-align: center;
+  background: #222;
+  color: white;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  gap: 6px;
+  justify-content: center;
+  margin: 20px;
+}
+
+.apple {
+  width: 50px;
+  height: 50px;
+  background: red;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.selected {
+  outline: 3px solid yellow;
+} */
+
+
+/* ─── Reset ──────────────────────────────────────────────────────────────── */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ─── Page — Nintendo Switch home screen dark ────────────────────────────── */
+body {
+  font-family: 'Nunito', 'Segoe UI', Arial, sans-serif;
+  background-color: #1a1a1a;
+  background-image:
+    radial-gradient(circle at 20% 50%, rgba(228,0,15,0.06) 0%, transparent 50%),
+    radial-gradient(circle at 80% 50%, rgba(10,185,230,0.06) 0%, transparent 50%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Outer layout ───────────────────────────────────────────────────────── */
+#game-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 24px;
+}
+
+/* ─── Grid container — dark panel with thick rounded border ─────────────── */
+#grid-container {
+  position: relative;
+  width: 950px;
+  height: 555px;
+  background-color: #2a2a2a;
+  border: 4px solid #444;
+  border-radius: 20px;
+  box-shadow:
+    0 0 0 2px #111,
+    0 12px 40px rgba(0,0,0,0.8);
+  overflow: hidden;
+}
+
+/* ─── Grid ───────────────────────────────────────────────────────────────── */
+#grid {
+  display: grid;
+  grid-template-columns: repeat(17, 50px);
+  grid-template-rows: repeat(10, 50px);
+  gap: 5px;
+  padding: 5px;
+}
+
+/* ─── Apple — cartoon style with thick dark outline ─────────────────────── */
+.apple {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Dark red, not too bright */
+  background: radial-gradient(circle at 38% 32%, #e84040, #9b1515 72%);
+  border: 1px solid #1a1a1ac6;
+  border-radius: 50%;
+
+  /* Numbers: bold, uniform, white with dark outline */
+  font-family: 'Nunito', Arial, sans-serif;
+  font-weight: 900;
+  font-size: 18px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: #ffffff;
+  /* 4-direction shadow = perfectly even outline around every digit */
+  text-shadow:
+    -1px -1px 0 #3a0000,
+     1px -1px 0 #3a0000,
+    -1px  1px 0 #3a0000,
+     1px  1px 0 #3a0000;
+
+  user-select: none;
+  position: relative;
+  cursor: default;
+  box-shadow:
+    inset 0 -4px 6px rgba(0,0,0,0.4),
+    inset 0 3px 5px rgba(255,255,255,0.18),
+    0 4px 0 #5a0000,       /* hard bottom shadow = cartoon depth */
+    0 6px 10px rgba(0,0,0,0.5);
+  transition: transform 0.08s ease, box-shadow 0.08s ease;
+}
+
+/* Leaf */
+.apple::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  right: 9px;
+  width: 9px;
+  height: 13px;
+  background: linear-gradient(135deg, #5dde6a, #1a8a26);
+  border: 1px solid #1a1a1a8e;
+  border-radius: 50%;
+  transform: rotate(-45deg);
+}
+
+/* Selected — Nintendo yellow ring (like a coin / star) */
+.selected-apple {
+  transform: scale(1.14);
+  box-shadow:
+    0 0 0 3px #ffdd00,
+    0 0 12px rgba(255,221,0,0.7),
+    inset 0 -4px 6px rgba(0,0,0,0.4),
+    inset 0 3px 5px rgba(255,255,255,0.18),
+    0 4px 0 #5a0000,
+    0 6px 10px rgba(0,0,0,0.5);
+}
+
+/* Empty slot */
+.empty {
+  background: rgba(255,255,255,0.04);
+  border: 2px solid rgba(255,255,255,0.06);
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+/* ─── Pop animation ──────────────────────────────────────────────────────── */
+@keyframes pop {
+  0%   { transform: scale(1);    opacity: 1; }
+  35%  { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(0);    opacity: 0; }
+}
+.pop {
+  animation: pop 0.3s cubic-bezier(0.36, 0.07, 0.19, 0.97) forwards;
+}
+
+/* ─── Drag selection box ─────────────────────────────────────────────────── */
+#selection-box {
+  position: absolute;
+  border: 3px solid #0ab9e6;           /* Joy-Con blue */
+  background-color: rgba(10,185,230,0.1);
+  border-radius: 6px;
+  pointer-events: none;
+  transition: border-color 0.08s, background-color 0.08s;
+}
+
+/* ─── Hidden utility ─────────────────────────────────────────────────────── */
+.hidden {
+  display: none !important;
+}
+
+/* ─── Splash screen ──────────────────────────────────────────────────────── */
+#splash-screen {
+  position: absolute;
+  inset: 0;
+  background: #2a2a2a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 10;
+  padding: 28px;
+  gap: 16px;
+}
+#splash-screen h1 {
+  font-size: 54px;
+  font-weight: 900;
+  letter-spacing: 1px;
+  color: #ffffff;
+  /* Double-layer text: white on top of red shadow = Nintendo logo feel */
+  text-shadow:
+    4px 4px 0 #e4000f,
+    6px 6px 0 #7a0008;
+}
+#splash-screen p {
+  font-size: 17px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+}
+
+/* ─── Result modal ───────────────────────────────────────────────────────── */
+#result-modal {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0,0,0,0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 20;
+}
+#result-modal .modal-content {
+  background: #2a2a2a;
+  border: 4px solid #444;
+  border-radius: 20px;
+  padding: 40px 52px;
+  text-align: center;
+  box-shadow:
+    0 0 0 2px #111,
+    0 20px 60px rgba(0,0,0,0.8);
+  animation: popIn 0.25s cubic-bezier(0.34,1.56,0.64,1);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+#result-modal h1 {
+  font-size: 38px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 3px 3px 0 #e4000f, 5px 5px 0 #7a0008;
+  letter-spacing: 1px;
+}
+#result-modal p {
+  font-size: 20px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.8);
+}
+#result-modal p span {
+  color: #ffdd00;
+  font-size: 28px;
+}
+#result-modal button {
+  margin-top: 6px;
+  padding: 14px 36px;
+  font-family: 'Nunito', Arial, sans-serif;
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border: 3px solid #1a1a1a;
+  border-radius: 999px;          /* pill shape — like Switch UI buttons */
+  background: #e4000f;
+  color: #fff;
+  box-shadow: 0 5px 0 #7a0008, 0 8px 16px rgba(0,0,0,0.5);
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+#result-modal button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #7a0008, 0 10px 20px rgba(0,0,0,0.5);
+}
+#result-modal button:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #7a0008, 0 4px 8px rgba(0,0,0,0.4);
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(0.8); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+/* Reused by auto-solve overlays */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ─── Sidebar ────────────────────────────────────────────────────────────── */
+#sidebar {
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+}
+
+/* ─── Buttons — pill-shaped, Nintendo controller style ──────────────────── */
+#start-button,
+#auto-solve-button {
+  padding: 14px 18px;
+  font-family: 'Nunito', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+  border: 3px solid #1a1a1a;
+  border-radius: 999px;
+  transition: transform 0.1s, box-shadow 0.1s;
+}
+
+/* Start = Joy-Con red */
+#start-button {
+  background: #e4000f;
+  color: #fff;
+  box-shadow: 0 5px 0 #7a0008, 0 7px 14px rgba(0,0,0,0.45);
+}
+#start-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #7a0008, 0 10px 18px rgba(0,0,0,0.45);
+}
+#start-button:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #7a0008, 0 3px 8px rgba(0,0,0,0.4);
+}
+
+/* Auto-solve = Joy-Con blue */
+#auto-solve-button {
+  background: #0ab9e6;
+  color: #fff;
+  box-shadow: 0 5px 0 #056e8a, 0 7px 14px rgba(0,0,0,0.45);
+}
+#auto-solve-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #056e8a, 0 10px 18px rgba(0,0,0,0.45);
+}
+#auto-solve-button:active:not(:disabled) {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #056e8a, 0 3px 8px rgba(0,0,0,0.4);
+}
+
+#start-button:disabled,
+#auto-solve-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ─── Score panel ────────────────────────────────────────────────────────── */
+#score-container {
+  background: #2a2a2a;
+  border: 3px solid #444;
+  border-radius: 16px;
+  padding: 14px 18px;
+  text-align: center;
+  box-shadow: 0 4px 0 #111;
+}
+#score-container h2 {
+  font-size: 12px;
+  font-weight: 900;
+  color: rgba(255,255,255,0.45);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 6px;
+}
+#score {
+  display: block;
+  font-size: 44px;
+  font-weight: 900;
+  color: #ffdd00;
+  line-height: 1;
+  text-shadow: 2px 2px 0 #a07a00, 3px 3px 0 #5a4400;
+}
+
+/* ─── Timer ──────────────────────────────────────────────────────────────── */
+#timer-container {
+  background: #2a2a2a;
+  border: 3px solid #444;
+  border-radius: 16px;
+  padding: 14px 18px;
+  box-shadow: 0 4px 0 #111;
+}
+
+#timer-bar-container {
+  width: 100%;
+  height: 20px;
+  background-color: #111;
+  border: 2px solid #333;
+  border-radius: 999px;
+  position: relative;
+  overflow: hidden;
+}
+
+#timer-bar {
+  height: 100%;
+  width: 100%;
+  /* Switches from green → yellow → red as time runs out (set via JS if desired) */
+  background: linear-gradient(90deg, #00c853, #aeea00);
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.6s ease;
+}
+
+#time-remaining {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  font-family: 'Nunito', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+  letter-spacing: 0.5px;
+  pointer-events: none;
+}
+

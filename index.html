@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Alma Land</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <div id="game-container">
+      <!-- Game area (grid, drag box, splash screen, result modal) -->
+      <div id="grid-container">
+        <div id="grid"></div>
+        <!-- Selection box shown while dragging -->
+        <div id="selection-box" class="hidden"></div>
+        <!-- Splash screen (shown before the first game starts) -->
+        <div id="splash-screen">
+          <h1>Alma Land</h1>
+          <p>Welcome to Alma Land!</p>
+          <p>Press Start to play.</p>
+        </div>
+        <!-- Result modal (shown after game ends) -->
+        <div id="result-modal" class="hidden">
+          <div class="modal-content">
+            <h1>Game Over</h1>
+            <p>Final Score: <span id="final-score"></span></p>
+            <button id="close-button">Close</button>
+          </div>
+        </div>
+      </div>
+      <!-- Sidebar: start button, auto-solve button, score and timer -->
+      <div id="sidebar">
+        <button id="start-button">Start Game</button>
+<div id="score-container">
+          <h2>Score</h2>
+          <span id="score">0</span>
+        </div>
+        <div id="timer-container">
+          <div id="timer-bar-container">
+            <!-- Timer bar shrinks as time runs out -->
+            <div id="timer-bar"></div>
+            <!-- Countdown number stays centered over the bar -->
+            <span id="time-remaining">120</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
