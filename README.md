@@ -2,7 +2,7 @@
 
 > A number puzzle game inspired by the apple orchards of **Almaty, Kazakhstan** — the genetic birthplace of the modern apple.
 
-![Alma Land gameplay screenshot](./screenshot.png)
+![Alma Land gameplay screenshot](./image.png)
 
 ---
 
